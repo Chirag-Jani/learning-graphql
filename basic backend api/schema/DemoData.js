@@ -14,6 +14,13 @@ const UserList = [
         nationality: "US",
       },
     ],
+    favMovies: [
+      {
+        id: 1,
+        name: "Avengers",
+        isReleased: true,
+      },
+    ],
   },
   {
     id: 2,
@@ -30,6 +37,7 @@ const UserList = [
         nationality: "Pak",
       },
     ],
+    favMovies: [],
   },
   {
     id: 3,
@@ -37,6 +45,7 @@ const UserList = [
     userName: "terror",
     age: 69,
     nationality: "Pak",
+    favMovies: [],
   },
 ];
 
