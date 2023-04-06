@@ -10,6 +10,7 @@ https://youtube.com/playlist?list=PLpPqplz6dKxXICtNgHY1tiCPau_AwWAJU
 
 ### Operations
 
+```
 query Users {
 users {
 id
@@ -149,3 +150,4 @@ name
 // (MUTATION) while deleting user
 "deleteUserId": "3",
 }
+```
