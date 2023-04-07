@@ -1,4 +1,4 @@
-import { gql, useQuery, useLazyQuery } from "@apollo/client";
+import { gql, useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import { useState } from "react";
 
 const DisplayData = () => {
@@ -31,7 +31,22 @@ const DisplayData = () => {
     }
   `;
 
+  const CREATE_USER_MUTATION = gql`
+    mutation CreateUser($input: CreateUserInput!) {
+      createUser(input: $input) {
+        name
+        age
+        nationality
+      }
+    }
+  `;
+
   const [movieName, setMovieName] = useState("");
+
+  const [name, setName] = useState("");
+  const [age, setAge] = useState(0);
+  const [userName, setUserName] = useState("");
+  const [nationality, setNationality] = useState("");
 
   const handleChange = (e) => {
     setMovieName(e.target.value);
@@ -41,6 +56,7 @@ const DisplayData = () => {
     data: userData,
     loading: userLoading,
     error: userError,
+    refetch,
   } = useQuery(QUERY_ALL_USERS);
 
   const { data: movieData } = useQuery(QUERY_ALL_MOVIES);
@@ -49,8 +65,10 @@ const DisplayData = () => {
     useLazyQuery(QUERY_MOVIE_BY_NAME);
 
   if (movieSearchError) {
-    console.log(movieSearchError.message);
+    console.log(movieSearchError);
   }
+
+  const [addUser] = useMutation(CREATE_USER_MUTATION);
 
   return (
     <div>
@@ -65,9 +83,59 @@ const DisplayData = () => {
               <div>
                 <p>ID: {user.id}</p>
                 <p>Name: {user.name}</p>
+                <p>Name: {user.userName}</p>
+                <p>Name: {user.nationality}</p>
               </div>
             );
           })}
+      </div>
+
+      <div>
+        <input
+          type="text"
+          placeholder="Name"
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        />
+        <input
+          type="number"
+          placeholder="Age"
+          onChange={(e) => {
+            setAge(Number(e.target.value));
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Username"
+          onChange={(e) => {
+            setUserName(e.target.value);
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Nationality"
+          onChange={(e) => {
+            setNationality(e.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            addUser({
+              variables: {
+                input: {
+                  name,
+                  userName,
+                  nationality,
+                  age,
+                },
+              },
+            });
+            refetch();
+          }}
+        >
+          Add User
+        </button>
       </div>
 
       <hr color="black" />
