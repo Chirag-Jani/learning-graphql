@@ -6,8 +6,11 @@ const resolvers = {
   // all the queries available
   Query: {
     // to get all the users
-    users: () => {
-      return UserList;
+    users: (parent, args, context, info) => {
+      console.log(info);
+      if (UserList) return { users: UserList };
+
+      return { message: "Some error occured!" };
     },
 
     // to get one specific user based on id
@@ -97,6 +100,18 @@ const resolvers = {
   //     return MovieList;
   //   },
   // },
+
+  UserResults: {
+    __resolveType(obj) {
+      if (obj.users) {
+        return "UsersResultSuccess";
+      }
+      if (obj.message) {
+        return "UsersResultError";
+      }
+      return null;
+    },
+  },
 };
 
 // functin to add new movie - called in the mutation resolver

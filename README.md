@@ -1,5 +1,4 @@
-4th April:
-
+Link:
 https://youtube.com/playlist?list=PLpPqplz6dKxXICtNgHY1tiCPau_AwWAJU
 
 - Completed EP 1 to 4:
@@ -162,4 +161,29 @@ mutation DeleteUser($deleteUserId: ID!){
   "deleteUserId": "3",
 }
 
+```
+
+### Fragments and Union Query
+
+```
+query Users {
+  users {
+    ... on UsersResultSuccess {
+      users {
+        ...getUserInfoFrag
+      }
+    }
+
+    ... on UsersResultError {
+      message
+    }
+  }
+}
+
+fragment getUserInfoFrag on User {
+  id
+  name
+  age
+  nationality
+}
 ```

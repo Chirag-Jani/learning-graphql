@@ -37,7 +37,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    users: [User!]!
+    users: UserResults # new using union
+    # users: [User!]! # old
     user(id: ID!): User!
     movies: [Movie!]!
     movie(name: String!): Movie
@@ -60,6 +61,16 @@ const typeDefs = gql`
 
     deleteUser(id: ID!): User
   }
+
+  type UsersResultSuccess {
+    users: [User!]!
+  }
+
+  type UsersResultError {
+    message: String!
+  }
+
+  union UserResults = UsersResultSuccess | UsersResultError
 `;
 
 module.exports = { typeDefs };
